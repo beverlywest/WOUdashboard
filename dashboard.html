@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+  <head>
+<base target="_top">
+<link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+<style>
+  .panel {
+	display: none;
+	}
+  .panel.active {
+	display: block;
+	}
+   .termLabel {
+	visibility:hidden;
+	}
+  .mdc-layout-grid__inner {
+	border-bottom: solid rgba(0,0,0,0.12) 1px;
+	}
+  .mdc-layout-grid__cell {
+	margin: 5px !important;
+	}
+</style>
+</head>
+
+<body class="mdc-typography">
+<main style="margin-left: 50px; margin-right: 50px;">
+<nav id="dynamic-tab-bar" class="mdc-tab-bar" role="tablist">  
+<a role="tab" class="mdc-tab mdc-tab--active" href="home">Home</a>
+<a role="tab" class="mdc-tab" href="crshistory">Course History</a>
+<a role="tab" class="mdc-tab" href="onlinenow">Online Classes</a>
+<span class="mdc-tab-bar__indicator"></span>
+</nav>
+
+<div class="panels">
+<div class="panel active" role="tabpanel" id="home">Home</div>
+
+
+<!-- *** 
+***
+***
+Begin panel for Course History function -->    
+
+<div class="panel" role="tabpanel" id="crshistory">     
+
+<h1 class="mdc-typography--display2">Course History</h1>
+<p>
+<select class="mdc-select" name="subject" id="subjectList">
+<option value="" id="selectFirst" default selected>Select subject</option>
+<!-- javascript function fillSubjList adds in the options, see below -->
+</select>
+</p>
+
+
+<div class="mdc-textfield" data-mdc-auto-init="MDCTextfield">
+<input type="text" id="crsnum" class="mdc-textfield__input">
+<label class="mdc-textfield__label" for="crsnum">Course Number</label>
+</div>  
+<p id="crsnum-helptext" class="mdc-textfield-helptext" aria-hidden="true">3-digit number - don't include letter suffixes like "W" or "Q"</p>
+
+
+<button onclick="lookupCourse()" class="mdc-button mdc-button--raised">Go</button>
+
+<div style="max-width:1000px">
+
+
+<div class="mdc-layout-grid">
+<div class="mdc-layout-grid__inner" style="border-bottom: none;">
+<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-10"><h2 class="mdc-typography--display1" style="margin-bottom:0px;" id="searching">&ensp;</h2></div>
+</div>
+<div class="mdc-layout-grid__inner">
+<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-4"><h2 class="mdc-typography--title">Academic Year</h2></div>
+</div>
+
+<!-- data from AY 2017 is not in the spreadsheet yet -->
+
+<div class="mdc-layout-grid__inner">
+<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-2"><h2 class="mdc-typography--headline">2016-17</h2></div>
+<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-2"><div class="mdc-card termLabel" id="201600"><section class="mdc-card__primary"><h2 class="mdc-card__title">Summer Term</h2></section></div></div>
+<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-2"><div class="mdc-card termLabel" id="201601"><section class="mdc-card__primary"><h2 class="mdc-card__title">Fall Term</h2></section></div></div>
+<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-2"><div class="mdc-card termLabel" id="201602"><section class="mdc-card__primary"><h2 class="mdc-card__title">Winter Term</h2></section></div></div>
+<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-2"><div class="mdc-card termLabel" id="201603"><section class="mdc-card__primary"><h2 class="mdc-card__title">Spring Term</h2></section></div></div>
+</div>
+
+<div class="mdc-layout-grid__inner">
+<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-2"><h2 class="mdc-typography--headline">2015-16</h2></div>
+<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-2"><div class="mdc-card termLabel" id="201500"><section class="mdc-card__primary"><h2 class="mdc-card__title">Summer Term</h2></section></div></div>
+<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-2"><div class="mdc-card termLabel" id="201501"><section class="mdc-card__primary"><h2 class="mdc-card__title">Fall Term</h2></section></div></div>
+<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-2"><div class="mdc-card termLabel" id="201502"><section class="mdc-card__primary"><h2 class="mdc-card__title">Winter Term</h2></section></div></div>
+<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-2"><div class="mdc-card termLabel" id="201503"><section class="mdc-card__primary"><h2 class="mdc-card__title">Spring Term</h2></section></div></div>
+</div>
+
+<div class="mdc-layout-grid__inner">
+<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-2"><h2 class="mdc-typography--headline">2014-15</h2></div>
+<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-2"><div class="mdc-card termLabel" id="201400"><section class="mdc-card__primary"><h2 class="mdc-card__title">Summer Term</h2></section></div></div>
+<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-2"><div class="mdc-card termLabel" id="201401"><section class="mdc-card__primary"><h2 class="mdc-card__title">Fall Term</h2></section></div></div>
+<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-2"><div class="mdc-card termLabel" id="201402"><section class="mdc-card__primary"><h2 class="mdc-card__title">Winter Term</h2></section></div></div>
+<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-2"><div class="mdc-card termLabel" id="201403"><section class="mdc-card__primary"><h2 class="mdc-card__title">Spring Term</h2></section></div></div>
+</div>
+
+<!-- data from AY 2013 is not in the spreadsheet yet -->
+
+</div>
+</div>
+
+</div>
+<!-- *** 
+***
+***
+End panel for Course History function -->
+
+
+<div class="panel" role="tabpanel" id="onlinenow">Online Classes</div>
+</div>
+
+
+</main>
+
+<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+
+<script type="text/javascript">
+
+var dynamicTabBar = window.dynamicTabBar = new mdc.tabs.MDCTabBar(document.querySelector('#dynamic-tab-bar'));
+var panels = document.querySelector('.panels');
+
+dynamicTabBar.tabs.forEach(function(tab) {
+tab.preventDefaultOnClick = true;
+});
+
+
+function updatePanel(index) {
+var activePanel = panels.querySelector('.panel.active');
+if (activePanel) {
+activePanel.classList.remove('active');
+}
+var newActivePanel = panels.querySelector('.panel:nth-child(' + (index + 1) + ')');
+if (newActivePanel) {
+newActivePanel.classList.add('active');
+}
+}
+
+dynamicTabBar.listen('MDCTabBar:change', function ({detail: tabs}) {
+var nthChildIndex = tabs.activeTabIndex;
+
+updatePanel(nthChildIndex);
+
+});
+
+
+// iterate through the list of subjects, creating a select-option object and dropping it into the select component above, for each
+function fillSubjList(subjects) {
+var subjSelect = document.getElementById("subjectList");
+for (i = 0; i < subjects.length; i++) {
+var subjOption = document.createElement("option");
+subjOption.value = subjects[i][0];
+var subjName = document.createTextNode(subjects[i][2]);
+subjOption.appendChild(subjName);
+subjSelect.appendChild(subjOption);
+}
+}
+
+
+google.script.run.withSuccessHandler(fillSubjList).subjGroup();
+
+
+function lookupCourse() {
+document.getElementById("searching").innerHTML = "searching...";
+var subject = document.getElementById("subjectList").value;
+var crsnum = document.getElementById("crsnum").value;
+// change the visibility of the term labels to hidden, in case this has already been run, so that we start no terms listed and then show only the appropriate ones
+var allTerms = document.getElementsByClassName("termLabel");
+var i;
+for (i = 0; i < allTerms.length; i++) {
+allTerms[i].style.visibility = 'hidden';
+}
+// now call the Google Script and if it is successful, send the list of terms to the fillTerms function
+google.script.run.withSuccessHandler(fillTerms).findTerms(subject, crsnum);
+}
+
+function fillTerms(termList) {
+var subject = document.getElementById("subjectList").value;
+var crsnum = document.getElementById("crsnum").value;
+
+for (i = 0; i < termList.length; i++) {
+document.getElementById(termList[i][0]).style.visibility = "visible";
+}
+document.getElementById("searching").innerHTML = subject + " " + crsnum + " classes were available in:";
+}
+
+
+
+
+window.mdc.autoInit();
+
+
+
+
+</script>
+</body>
+</html>
+
+
